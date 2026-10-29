@@ -61,15 +61,6 @@ Open `http://127.0.0.1:8000/docs` to try the API.
 }
 ```
 
-Send this as a `POST` request to `/calculate`.
-
-1. Put these files in a GitHub repository.
-2. In Render, create a new **Blueprint** and connect the repository containing `render.yaml`.
-3. Review the service configuration and deploy.
-4. Check `/health` and `/docs` on the resulting service URL.
-5. Set `FRONTEND_ORIGIN` to the exact origin shown for your Hugging Face Space. The configured value is an example and may need adjustment.
-6. Only after independent tests pass, update the frontend to call the API.
-
 Free services may sleep when idle and have usage limits. Check the provider's current terms before relying on it.
 
 This scaffold does not implement a complete IFRS 9 method. Make sure to specify and validate at least:
