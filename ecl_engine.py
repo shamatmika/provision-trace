@@ -6,6 +6,7 @@ import math
 
 
 class ECLValidationError(ValueError):
+    pass
 
 @dataclass(frozen=True)
 class Facility:
