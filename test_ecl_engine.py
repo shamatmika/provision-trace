@@ -85,6 +85,48 @@ class TestECLValidation(unittest.TestCase):
         self.assertEqual(result["total_illustrative_ecl"], 0)
         self.assertEqual(result["portfolio_ecl_rate_percent"], 0)
 
+        def test_rejects_fractional_horizon(self):
+        with self.assertRaises(ECLValidationError):
+            validate_facilities([
+                dict(SAMPLE[1], horizon_years=2.5)
+            ])
+
+    def test_rejects_zero_horizon(self):
+        with self.assertRaises(ECLValidationError):
+            validate_facilities([
+                dict(SAMPLE[1], horizon_years=0)
+            ])
+
+    def test_rejects_nan_exposure(self):
+        with self.assertRaises(ECLValidationError):
+            validate_facilities([
+                dict(SAMPLE[0], exposure=float("nan"))
+            ])
+
+    def test_rejects_infinite_pd(self):
+        with self.assertRaises(ECLValidationError):
+            validate_facilities([
+                dict(SAMPLE[0], pd=float("inf"))
+            ])
+
+    def test_rejects_non_object_scenario(self):
+        with self.assertRaises(ECLValidationError):
+            validate_scenarios([
+                {"name": "base", "weight": 0.6},
+                None,
+                {"name": "downside", "weight": 0.4},
+            ])
+
+    def test_rejects_negative_scenario_multiplier(self):
+        with self.assertRaises(ECLValidationError):
+            validate_scenarios([
+                {
+                    "name": "base",
+                    "weight": 1.0,
+                    "pd_multiplier": -0.5,
+                }
+            ])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
