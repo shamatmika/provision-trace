@@ -84,8 +84,10 @@ def validate_facilities(records: Iterable[dict[str, Any]]) -> list[Facility]:
             raise ECLValidationError(f"Row {row_number}: pd must be between 0 and 100 (%).")
         if not 0 <= lgd <= 100:
             raise ECLValidationError(f"Row {row_number}: lgd must be between 0 and 100 (%).")
-        if horizon <= 0:
-            raise ECLValidationError(f"Row {row_number}: horizon_years must be greater than 0.")
+        if not horizon.is_integer() or not 1 <= horizon <= 100:
+            raise ECLValidationError( 
+                f"Row {row_number}: horizon_years must be a whole number "
+                "between 1 and 100.")
         if discount_rate <= -100:
             raise ECLValidationError(f"Row {row_number}: discount_rate must be greater than -100 (%).")
 
