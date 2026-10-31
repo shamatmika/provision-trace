@@ -114,8 +114,12 @@ def validate_scenarios(scenarios: Iterable[dict[str, Any]] | None = None) -> lis
         raise ECLValidationError("At least one scenario is required.")
 
     result: list[Scenario] = []
-    names: set[str] = set()
+        names: set[str] = set()
     for i, item in enumerate(raw, start=1):
+        if not isinstance(item, dict):
+            raise ECLValidationError(
+                f"Scenario {i}: each scenario must be an object."
+            )
         name = str(item.get("name", "")).strip().lower()
         if not name:
             raise ECLValidationError(f"Scenario {i}: name is required.")
